@@ -1,12 +1,14 @@
 package webdemo.seleniumDemo;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import sun.jvm.hotspot.asm.ImmediateOrRegister;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +24,7 @@ public class BrowserTest {
     public static void setUpDriver(){
         System.setProperty("webdriver.gecko.driver", "resources/geckodriver" + (System.getProperty("os.name").toLowerCase().contains("win") ? ".exe" : "" ));
         FirefoxOptions options = new FirefoxOptions();
-        //options.setHeadless(true);
+        options.setHeadless(true);
         options.addPreference("intl.accept_languages", "en-us");
         driver = new FirefoxDriver(options);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -51,19 +53,33 @@ public class BrowserTest {
         assertEquals("testowanie at DuckDuckGo", driver.getTitle());
     }
     //Czy istnieje inna metoda na kliknięcie niż click()?
-    @Test
-    public void testPressEnter(){
-        driver.findElement(By.id("search_form_input_homepage")).sendKeys("testowanie" + Keys.ENTER);
-        assertEquals("testowanie at DuckDuckGo", driver.getTitle());
-    }
 
+
+    //submit
     @Test
+    @Disabled
     public void testSubmit(){
         driver.findElement(By.id("search_form_input_homepage")).sendKeys("testowanie");
         driver.findElement(By.id("search_button_homepage")).submit();
-        assertTrue(driver.getCurrentUrl().contains("testowanie"));
+        assertEquals("testowanieat DuckDuckGo", driver.getTitle());
     }
 
+    // użycie akcji
+    @Test
+    public void testClickWithAction(){
+        driver.findElement(By.id("search_form_input_homepage")).sendKeys("testowanie");
+        WebElement searchButton = driver.findElement(By.id("search_button_homepage"));
+        Dimension buttonSize = searchButton.getSize();
+        Point buttonLocation = searchButton.getLocation();
+        Actions act = new Actions(driver);
+        act.moveByOffset(
+                buttonLocation.x + buttonSize.width/2,
+                buttonLocation.y + buttonSize.height/2)
+                .click().build().perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.titleIs("testowanie at DuckDuckGo"));
+        assertEquals("testowanie at DuckDuckGo", driver.getTitle());
+    }
 
     //Jak wejść w pierwszy i trzeci otrzymany wynik?
 
@@ -84,11 +100,8 @@ public class BrowserTest {
         driver.findElement(By.id("search_form_input_homepage")).sendKeys("testowanie");
         driver.findElement(By.id("search_button_homepage")).click();
         List<WebElement> results = driver.findElements(By.className("result__a"));
-        results.get(0).click();
-        String title1 = driver.getTitle();
-        driver.navigate().back();
-        results.get(2).click();
-        String title3 = driver.getTitle();
+        String title1 = results.get(0).getAttribute("text"); // pierwszy element
+        String title3 = results.get(2).getAttribute("text"); // trzeci element
         assertNotEquals(title1, title3);
     }
 
