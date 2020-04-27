@@ -1,9 +1,6 @@
 package webdemo.seleniumDemo;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -88,11 +85,12 @@ public class XPathTest {
             assertNotNull(elements);
         }
 
-        @Test
-        public void testExactAtributeNode(){
-            WebElement element = driver.findElement(By.xpath("//input[@value = 'Google Search']"));
-            System.out.println(element.getAttribute("value"));
-            assertNotNull(element);
-        }
+    @Test
+    @Disabled
+    public void testExactAtributeNode(){
+        WebElement element = driver.findElement(By.xpath("//input[@value = 'Google Search']"));
+        System.out.println(element.getAttribute("value"));
+        assertNotNull(element);
+    }
 
 }
