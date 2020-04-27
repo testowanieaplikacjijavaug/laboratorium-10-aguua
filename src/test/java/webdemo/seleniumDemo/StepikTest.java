@@ -52,7 +52,6 @@ public class StepikTest {
 
     //Przejdzie do każdego linka i wróci spowrotem do sprawdzanej strony internetowej
     @Test
-    @Disabled
     public void goToLinksAndReturn(){
         String mainTitle = driver.getTitle();
         List<String> hrefs =

@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -83,7 +84,8 @@ public class LoginTest {
     @Test
     public void testCorrectLoginAndPassword() {
         logIn(testLogin,testPasswd);
-        assertEquals("GitHub", driver.getTitle());
+        String title = driver.getTitle();
+        assertTrue(title.contains("DuckDuckGo"));
     }
 
     @Test

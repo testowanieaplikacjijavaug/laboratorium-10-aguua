@@ -54,7 +54,7 @@ public class BrowserTest {
     }
 
     //Czy istnieje inna metoda na kliknięcie niż click()?
-    
+
     //submit
     @Test
     public void testSubmit()throws InterruptedException{
