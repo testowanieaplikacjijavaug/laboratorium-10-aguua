@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +23,11 @@ public class XPathTest {
 
         @BeforeAll
         public static void setUpDriver(){
-            System.setProperty("webdriver.gecko.driver", "resources/geckodriver");
-            driver = new FirefoxDriver();
+            System.setProperty("webdriver.gecko.driver", "resources/geckodriver" + (System.getProperty("os.name").toLowerCase().contains("win") ? ".exe" : "" ));
+            FirefoxOptions options = new FirefoxOptions();
+            options.setHeadless(true);
+            options.addPreference("intl.accept_languages", "en");
+            driver = new FirefoxDriver(options);
             // Implicity wait -> max czas na znalezienie elementu na stronie
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
@@ -86,7 +90,7 @@ public class XPathTest {
 
         @Test
         public void testExactAtributeNode(){
-            WebElement element = driver.findElement(By.xpath("//input[@value = 'Szukaj w Google']"));
+            WebElement element = driver.findElement(By.xpath("//input[@value = 'Google Search']"));
             System.out.println(element.getAttribute("value"));
             assertNotNull(element);
         }
