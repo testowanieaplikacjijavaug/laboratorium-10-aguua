@@ -52,16 +52,23 @@ public class BrowserTest {
         driver.findElement(By.id("search_button_homepage")).click();
         assertEquals("testowanie at DuckDuckGo", driver.getTitle());
     }
+
     //Czy istnieje inna metoda na kliknięcie niż click()?
-
-
+    
     //submit
     @Test
-    @Disabled
-    public void testSubmit(){
+    public void testSubmit()throws InterruptedException{
         driver.findElement(By.id("search_form_input_homepage")).sendKeys("testowanie");
         driver.findElement(By.id("search_button_homepage")).submit();
-        assertEquals("testowanieat DuckDuckGo", driver.getTitle());
+        Thread.sleep(2000);
+        assertEquals("testowanie at DuckDuckGo", driver.getTitle());
+    }
+    // sendKey z argumentem Keys.ENTER
+    @Test
+    public void testPressEnter() throws InterruptedException {
+        driver.findElement(By.id("search_form_input_homepage")).sendKeys("testowanie", Keys.ENTER);
+        Thread.sleep(2000);
+        assertEquals("testowanie at DuckDuckGo", driver.getTitle());
     }
 
     // użycie akcji
