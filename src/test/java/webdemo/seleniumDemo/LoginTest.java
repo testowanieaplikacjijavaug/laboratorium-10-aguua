@@ -85,7 +85,7 @@ public class LoginTest {
     public void testCorrectLoginAndPassword() {
         logIn(testLogin,testPasswd);
         String title = driver.getTitle();
-        assertTrue(title.contains("DuckDuckGo"));
+        assertTrue(title.contains("GitHub"));
     }
 
     @Test
